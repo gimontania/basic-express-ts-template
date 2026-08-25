@@ -24,6 +24,23 @@ app.get("/", (req: Request, res: Response) => {
     });
 });
 
+//endpoint para obtener todos los productos del menú
+app.get("/api/menu", async(req: Request, res: Response) => {
+    /*#swagger.tags = ['Menu']*/
+
+    try{
+        const result = await pool.query("SELECT * FROM products"); //hacemos una consulta a la tabla products
+
+        res.json(result.rows); 
+    } catch (error) {
+        console.error(error);
+
+        res.status(500).json({
+            error: "Error al obtener los productos"
+        });
+    }
+});
+
 app.listen(port, () => {
     console.log(`URL: http://localhost:${port}`);
 });
